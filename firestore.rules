@@ -1,0 +1,16 @@
+rules_version = '2';
+
+// Reguły dla Firestore w trybie bez logowania (identyfikacja tylko po imieniu).
+// Dostęp mają osoby znające link do sesji (ID sesji jest losowe, 8 znaków).
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /sessions/{sessionId} {
+      allow read, create, update: if true;
+      allow delete: if false;
+
+      match /tasks/{taskId} {
+        allow read, create, update, delete: if true;
+      }
+    }
+  }
+}
